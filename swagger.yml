@@ -19,6 +19,17 @@ paths:
         - "People"
       summary: "The people data structure supported by the server application"
       description: "Read the list of people"
+      parameters:
+        - name: length
+          in: query
+          type: integer
+          description: Number of people to get from people
+          required: false
+        - name: offset
+          in: query
+          type: integer
+          description: Offset from beginning of lost where to start gathering people
+          required: false
       responses:
         200:
           description: "Successful read people list operation"
@@ -32,3 +43,92 @@ paths:
                   type: "string"
                 timestamp:
                   type: "string"
+
+    post:
+      operationId: people.create
+      tags:
+        - People
+      summary: Create a person and add it to the people list
+      description: Create a new person in the people list
+      parameters:
+        - name: person
+          in: body
+          description: Person to create
+          required: true
+          schema:
+            type: object
+            properties:
+              fname:
+                type: string
+                description: First name of person to create
+              lname:
+                type: string
+                description: Last name of person to create
+      responses:
+        201:
+          description: Successfullly created person in list
+
+  /people/{lname}:
+    get:
+      operationId: people.read_one
+      tags:
+        - People
+      summary: Read first person to match last name from people list
+      description: Read first person to match last name from people list
+      parameters:
+        - name: lname
+          in: path
+          type: string
+          description: Last name of person to get
+          required: true
+      responses:
+        200:
+          description: Successfully read person from people list operation
+          schema:
+            properties:
+              fname:
+                type: string
+              lname:
+                type: string
+              timestamp:
+                type: string
+
+    put:
+      operationId: people.update
+      tags:
+        - People
+      summary: Update a person in the people list
+      description: Update a person in the people list
+      parameters:
+        - name: lname
+          in: path
+          description: Last name of the person to update in the list
+          type: string
+          required: true
+        - name: person
+          in: body
+          schema:
+            type: object
+            properties:
+              fname: 
+                type: string
+              lname:
+                type: string
+      responses:
+        200:
+          description: Successfully updated person in people list
+
+    delete:
+      operationId: people.delete
+      tags:
+        - People
+      summary: Delete a person from the list
+      description: Delete a person
+      parameters:
+        - name: lname
+          in: path
+          type: string
+          required: true
+      responses:
+        200:
+          description: Successfully deleted a person from people list
