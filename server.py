@@ -13,8 +13,8 @@ def home():
     """Returns home.html
     """
     return render_template('home.html')
-
-
+    
+    
 # run if in stand alone mode
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5001, debug=True)
